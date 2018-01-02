@@ -9,6 +9,18 @@ exports.rightStart = function(req, res){
 	res.send("rightStart  successfully updated");
 };
 
+exports.fetchAll = function(req, res){
+	console.log("fetchAll started");
+	var j=[];
+	feedModel.find({}, function(err, docs) {
+	    if (!err){ 
+	    	res.send("fetchAll  successfully returned "+docs);
+	    	console.log(docs);
+	    }else {res.send("fetchAll  error returned "+err)};	
+	});
+	
+};
+
 exports.rightStop = function(req, res){
 	feedModel.findOneAndUpdate({endTime:{ $exists: false },side:"right"}, { $set: {endTime:new Date()}}, {sort:{startTime:-1},new:true}, 
 	  function (err, doc) {
