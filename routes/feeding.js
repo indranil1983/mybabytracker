@@ -66,3 +66,10 @@ exports.leftStop = function(req, res){
 	});	
 	res.send("leftStop successfull updated");
 };
+
+exports.clearAll= function(req, res){
+	feedModel.remove({},function(err) {
+		if(err) { return handleError(res, err); }
+		return res.send(204);
+	});
+};
