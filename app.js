@@ -35,6 +35,9 @@ app.get('/', routes.index);
 app.get('/users', user.list);
 
 app.get('/feedRightStart', feeding.rightStart);
+app.get('/feedRightStop', feeding.rightStop);
+app.get('/feedLeftStart', feeding.leftStart);
+app.get('/feedLeftStop', feeding.leftStop);
 
 app.get('/feedFetchAll', feeding.fetchAll);
 
