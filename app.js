@@ -12,6 +12,8 @@ var express = require('express')
 
 require('./mongodao/mongoConnect.js');
 var feeding=require('./routes/feeding');
+var temperature=require('./routes/temperature');
+var diaper=require('./routes/diaper');
 
 var app = express();
 
@@ -41,6 +43,15 @@ app.get('/feedLeftStop', feeding.leftStop);
 
 app.get('/feedFetchAll', feeding.fetchAll);
 //app.get('/feedClearAll', feeding.clearAll);
+
+//temeprature
+app.get('/noteTemperature', temperature.noteTemperature);
+
+app.get('/changeBothDiaper', diaper.changeBothDiaper);
+
+app.get('/changePeeDiaper', diaper.changePeeDiaper);
+
+app.get('/changePottyDiaper', diaper.changePottyDiaper);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

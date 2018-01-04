@@ -1,7 +1,7 @@
 var mongoose = require( 'mongoose' );
 var config=require('../routes/env');
 
-feedModel = mongoose.model('feedModel');
+var feedModel = mongoose.model('feedModel');
 
 exports.rightStart = function(req, res){
 	console.log("rightStart started");

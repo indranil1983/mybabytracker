@@ -41,6 +41,8 @@ process.on('SIGINT', function() {
 //BRING IN YOUR SCHEMAS & MODELS
 //For example
 require('./feedModel');
+require('./temperatureModel');
+require('./diaperModel.js');
 
 
 /*feedModel = mongoose.model('feedModel');
