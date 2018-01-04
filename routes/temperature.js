@@ -16,3 +16,26 @@ exports.noteTemperature = function(req, res){
 	}
 	
 };
+
+exports.tempearatureReport = function(req, res){
+	console.log("tempearatureReport started");
+	var j=[];
+	tempearatureModel.find({}, function(err, docs) {
+	    if (!err){ 
+	    	//res.send("fetchAll  successfully returned "+docs);
+	    	if(docs.length){
+	    		res.send(" tempearatureReport no data returned");
+	    	}else{
+	    		var responseString = [];
+	    		for (var i = 0; i < docs.length; i++) {
+					var temperature=docs[i].temperature;
+					var noteTime=docs[i].noteTime;
+					responseString.push({"temperature":temperature,"noteTime":noteTime});
+				}
+	    		res.send("tempearatureReport returned"+JSON.stringify(responseString));
+	    	}	    	
+	    	console.log(responseString);
+	    }else {res.send("tempearatureReport error returned "+err)};	
+	});
+	
+};

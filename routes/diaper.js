@@ -25,6 +25,30 @@ exports.changePottyDiaper = function(req, res){
 	
 };
 
+exports.diaperReport = function(req, res){
+	console.log("fetchDiaperAll started");
+	var j=[];
+	diaperModel.find({}, function(err, docs) {
+	    if (!err){ 
+	    	//res.send("fetchAll  successfully returned "+docs);
+	    	if(docs.length){
+	    		res.send("fetchAll diaperModel no data returned");
+	    	}else{
+	    		var responseString = [];
+	    		for (var i = 0; i < docs.length; i++) {
+					var pee=docs[i].pee;
+					var noteTime=docs[i].noteTime;
+					var potty=docs[i].potty;
+					responseString.push({"pee":pee,"noteTime":noteTime,"potty":potty});
+				}
+	    		res.send("fetchAll data diaperModel returned"+JSON.stringify(responseString));
+	    	}	    	
+	    	console.log(responseString);
+	    }else {res.send("fetchAll diaperModel error returned "+err)};	
+	});
+	
+};
+
 function insertDiaper(type){
 	if('both'==type){
 		diaperModel.create({profile:config.profile,
