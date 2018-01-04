@@ -40,7 +40,7 @@ app.get('/feedLeftStart', feeding.leftStart);
 app.get('/feedLeftStop', feeding.leftStop);
 
 app.get('/feedFetchAll', feeding.fetchAll);
-app.get('/feedClearAll', feeding.clearAll);
+//app.get('/feedClearAll', feeding.clearAll);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

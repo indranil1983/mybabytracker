@@ -21,16 +21,16 @@ exports.fetchAll = function(req, res){
 	    	}else{
 	    		var responseString = [];
 	    		for (var i = 0; i < docs.length; i++) {
-					var side=docs.side;
-					var startTime=docs.startTime;
-					var endTime=docs.endTime;
+					var side=docs[i].side;
+					var startTime=docs[i].startTime;
+					var endTime=docs[i].endTime;
 					var duration=null;
 					if(endTime!=null){
 						duration = Math.abs(endTime.getTime() - startTime.getTime());
 					}					
 					responseString.push({"side":side,"startTime":startTime,"endTime":endTime,"duration":duration});
 				}
-	    		res.send("fetchAll data returned"+responseString);
+	    		res.send("fetchAll data returned"+JSON.stringify(responseString));
 	    	}	    	
 	    	console.log(responseString);
 	    }else {res.send("fetchAll  error returned "+err)};	
@@ -64,7 +64,7 @@ exports.leftStop = function(req, res){
 	    }
 	    console.log(doc);
 	});	
-	res.send("leftStop successfull updated");
+	res.send("leftStop successfully updated");
 };
 
 exports.clearAll= function(req, res){
