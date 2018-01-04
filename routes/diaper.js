@@ -31,7 +31,7 @@ exports.diaperReport = function(req, res){
 	diaperModel.find({}, function(err, docs) {
 	    if (!err){ 
 	    	//res.send("fetchAll  successfully returned "+docs);
-	    	if(docs.length){
+	    	if(!docs.length){
 	    		res.send("fetchAll diaperModel no data returned");
 	    	}else{
 	    		var responseString = [];

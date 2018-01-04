@@ -23,7 +23,7 @@ exports.tempearatureReport = function(req, res){
 	tempearatureModel.find({}, function(err, docs) {
 	    if (!err){ 
 	    	//res.send("fetchAll  successfully returned "+docs);
-	    	if(docs.length){
+	    	if(!docs.length){
 	    		res.send(" tempearatureReport no data returned");
 	    	}else{
 	    		var responseString = [];
