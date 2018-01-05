@@ -53,6 +53,7 @@ app.get('/changePeeDiaper', diaper.changePeeDiaper);
 
 app.get('/changePottyDiaper', diaper.changePottyDiaper);
 app.get('/diaperReport', diaper.diaperReport);
+app.get('/temperatureReport', temperature.temperatureReport);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

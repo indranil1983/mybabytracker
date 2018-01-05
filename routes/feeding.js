@@ -30,9 +30,9 @@ exports.fetchAll = function(req, res){
 					}					
 					responseString.push({"side":side,"startTime":startTime,"endTime":endTime,"duration":duration});
 				}
-	    		res.send("fetchAll data returned"+JSON.stringify(responseString));
+	    		res.send("fetchAll data returned <br>"+JSON.stringify(responseString, null, "\t"));
 	    	}	    	
-	    	console.log(responseString);
+	    	console.log(JSON.stringify(responseString, null, "\t"));
 	    }else {res.send("fetchAll  error returned "+err)};	
 	});
 	
