@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Bootstrap 3, from LayoutIt!</title>
+
+    <meta name="description" content="Source code generated using layoutit.com">
+    <meta name="author" content="LayoutIt!">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  </head>
+  <body>
+
+    <div class="container-fluid">
+    <div class="row">
+      <a class="navbar-brand " style="margin-left:38%;font-size: 25px;" href="#">My Baby Tracker</a>
+    </div>
+    
+	<div class="row">
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title text-center">
+						Today's Data
+					</h3>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="row">
+				<div class="col-md-4">
+					<div class="circle-tile ">
+				        <a href="#">
+				        	<div class="circle-tile-heading yellow">
+				        		<i class="fa fa-cutlery fa-fw fa-3x" style="background-image: url('http://www.iconarchive.com/download/i90058/icons8/windows-8/Baby-Bottle.ico');"></i>
+				        	</div>
+				        </a>
+				        <div class="circle-tile-content dark-blue half">
+				          <div class="circle-tile-description text-faded"> Feed Count</div>
+				          <div class="circle-tile-number text-faded " id="feedCountId">0</div>
+				          <a class="circle-tile-footer" href="#"></a>
+				        </div>
+				        <div class="dark-blue half" style="padding-top: 5px;">
+				          <div class="circle-tile-description text-faded"> Feed Duration</div>
+				          <div class="circle-tile-number text-faded "  id="feedDurationId">0 </div>
+				          <a class="circle-tile-footer" href="#">More Info<i class="fa fa-chevron-circle-right"></i></a>
+				        </div>
+				      </div>
+				</div>
+				<div class="col-md-4">
+					<div class="circle-tile ">
+				        <a href="#"><div class="circle-tile-heading red"><i class="fa fa-thermometer-quarter fa-fw fa-3x"></i></div></a>
+				        <div class="circle-tile-content dark-blue">
+				          <div class="circle-tile-description text-faded"> Temperature</div>
+				          <div class="circle-tile-number text-faded " id="temperatureId">265</div>
+				          <a class="circle-tile-footer" href="#"></a>
+				        </div>
+				        <div class="dark-blue half" style="padding-top: 5px;">
+				          <div class="circle-tile-description text-faded"> Measured at</div>
+				          <div class="circle-tile-number text-faded "  id="measuredAtId">0 </div>
+				          <a class="circle-tile-footer" href="#">More Info<i class="fa fa-chevron-circle-right"></i></a>
+				        </div>
+				      </div>
+				</div>
+				<div class="col-md-4">
+					<div class="circle-tile ">
+				        <a href="#"><div class="circle-tile-heading blue"><i class="fa fa-bath fa-fw fa-3x"></i></div></a>
+				        <div class="circle-tile-content dark-blue">
+				          <div class="circle-tile-description text-faded"> Cleaning</div>
+				          <div class="circle-tile-number text-faded " id="cleaningId">0</div>
+				          <a class="circle-tile-footer" href="#">More Info<i class="fa fa-chevron-circle-right"></i></a>
+				        </div>
+				      </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
+    
+    
+    <script type="text/javascript">
+    	$.ajax({url: "feedCountToday", success: function(result){
+            $("#feedCountId").html(result.count);
+            $("#feedDurationId").html(result.duration+"min(s)");
+        }});
+    	
+    	$.ajax({url: "lastTemperature", success: function(result){
+            $("#temperatureId").html(result.temperature+"&#x2109;");
+            $("#measuredAtId").html(result.measuredAt);
+        }});
+    	
+    	$.ajax({url: "diaperCountToday", success: function(result){
+            $("#cleaningId").html(result.count);
+        }});
+    
+    </script>
+  </body>
+</html>

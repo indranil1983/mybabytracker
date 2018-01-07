@@ -1,5 +1,6 @@
 var mongoose = require( 'mongoose' );
 var config=require('../routes/env');
+var util = require('./util.js');
 
 var diaperModel = mongoose.model('diaperModel');
 
@@ -47,6 +48,36 @@ exports.diaperReport = function(req, res){
 	    }else {res.send("fetchAll diaperModel error returned "+err)};	
 	});
 	
+};
+
+exports.countToday= function(req, res){
+	var count = 0;
+	diaperModel.find({}, function(err, docs) {
+	    if (!err){ 
+	    	//res.send("fetchAll  successfully returned "+docs);
+	    	if(!docs.length){
+	    		res.send(JSON.stringify({"count":count}));
+	    	}
+	    	else{
+	    		var responseString = [];
+	    		var d = new Date();
+	    		var n = d.getTimezoneOffset();
+	    		var secOffset = n*60;
+	    		console.log("offset seconds"+secOffset);
+	    		console.log("all doc "+docs.length+" details:- "+docs);
+	    		for (var i = 0; i < docs.length; i++) {
+					var noteTime=docs[i].noteTime;
+					console.log("noteTIme"+noteTime);
+					if(util.checkCurrentDate(noteTime)){
+						count++;
+					}
+					
+				}
+	    		res.send({"count":count});
+	    	}	    	
+	    	console.log(JSON.stringify(responseString, null, "\t"));
+	    }else {res.send("fetchAll  error returned "+err)};	
+	});
 };
 
 function insertDiaper(type){

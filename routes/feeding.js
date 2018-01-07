@@ -1,5 +1,6 @@
 var mongoose = require( 'mongoose' );
 var config=require('../routes/env');
+var util = require('./util.js');
 
 var feedModel = mongoose.model('feedModel');
 
@@ -73,3 +74,50 @@ exports.clearAll= function(req, res){
 		return res.send(204);
 	});
 };
+
+
+exports.countToday= function(req, res){
+	var count = 0;
+	var totDuration=0;
+	feedModel.find({}, function(err, docs) {
+	    if (!err){ 
+	    	//res.send("fetchAll  successfully returned "+docs);
+	    	if(!docs.length){
+	    		res.send(JSON.stringify({"count":count}));
+	    	}
+	    	else{
+	    		var responseString = [];
+	    		var d = new Date();
+	    		var n = d.getTimezoneOffset();
+	    		var secOffset = n*60;
+	    		console.log("offset seconds"+secOffset);
+	    		for (var i = 0; i < docs.length; i++) {
+					var side=docs[i].side;
+					var startTime=docs[i].startTime;
+					var offstartTime = util.getTimeZoneSpecificDate(startTime);
+					var offEndTime=0;
+					var endTime=docs[i].endTime;
+					if(endTime){
+						offEndTime = new Date(endTime.getTime() - secOffset * 1000);
+					}
+					
+					var duration=null;
+					if(endTime!=null){
+						duration = Math.abs((endTime.getTime() - startTime.getTime())/60000);//mins
+					}
+					else duration=5;//mins
+					console.log(duration);
+					if(util.checkCurrentDate(offstartTime)){
+						count++;
+						totDuration=totDuration+duration;
+					}
+					
+				}
+	    		res.send({"count":count,"duration":Math.ceil(totDuration)});
+	    	}	    	
+	    	console.log(JSON.stringify(responseString, null, "\t"));
+	    }else {res.send("fetchAll  error returned "+err)};	
+	});
+};
+
+

@@ -1,10 +1,12 @@
 var mongoose = require( 'mongoose' );
 var config=require('../routes/env');
+var util = require('./util.js');
+var dateFormat = require('dateformat');
 
 var tempearatureModel = mongoose.model('temperatureModel');
 
 exports.noteTemperature = function(req, res){
-	console.log("rightStart started");
+	console.log("noteTemperature started");
 	var temperature = req.query.temperature;
 	if(temperature){
 		console.log("note temperature was "+temperature);
@@ -38,4 +40,31 @@ exports.temperatureReport = function(req, res){
 	    }else {res.send("temperatureReport error returned "+err)};	
 	});
 	
+};
+
+exports.getLatestData=function(req,res){
+	/*$today = new Date();
+	$yesterday = new Date($today);
+	$yesterday.setDate($today.getDate() - 1);*/ 
+	var query = tempearatureModel.find({temperature:{ $exists: true }}).sort({'noteTime':-1}).limit(1);
+	query.exec(function(err, docs) {
+
+	    if (!err){ 
+	    	//res.send("fetchAll  successfully returned "+docs);
+	    	if(!docs.length){
+	    		res.send(" temperatureReport no data returned");
+	    	}
+	    	else{
+	    		console.log("temperature docs "+docs);
+	    		for (var i = 0; i < docs.length; i++) {
+	    			var notedAt = docs[i].noteTime;
+	    			notedAt = dateFormat(notedAt, "dS mmm h:MM TT");
+	    			console.log("notedAt "+notedAt);
+	    			//var noteOffSetTime=util.getTimeZoneSpecificDate(notedAt);
+		    		res.send({"temperature":docs[i].temperature,"measuredAt":notedAt});
+	    		}
+	    		
+	    	}	    	
+	    }else {res.send("temperatureReport error returned "+err);}		
+	});
 };

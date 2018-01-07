@@ -9,18 +9,21 @@ var express = require('express')
   , user = require('./routes/user')
   , http = require('http')
   , path = require('path');
+var engines = require('consolidate');
 
 require('./mongodao/mongoConnect.js');
 var feeding=require('./routes/feeding');
 var temperature=require('./routes/temperature');
 var diaper=require('./routes/diaper');
+var view=require('./routes/view');
 
 var app = express();
 
 // all environments
 app.set('port', config.PORT || 3000);
-app.set('views', __dirname + '/views');
-app.set('view engine', 'jade');
+app.set('views', __dirname + '/html');
+app.engine('html', engines.mustache);
+app.set('view engine', 'html');
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
@@ -33,7 +36,7 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
+app.get('/', view.home);
 app.get('/users', user.list);
 
 app.get('/feedRightStart', feeding.rightStart);
@@ -54,6 +57,14 @@ app.get('/changePeeDiaper', diaper.changePeeDiaper);
 app.get('/changePottyDiaper', diaper.changePottyDiaper);
 app.get('/diaperReport', diaper.diaperReport);
 app.get('/temperatureReport', temperature.temperatureReport);
+
+app.get('/feedCountToday', feeding.countToday);
+app.get('/lastTemperature', temperature.getLatestData);
+
+app.get('/diaperCountToday', diaper.countToday);
+
+
+app.get('/home', view.home);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
