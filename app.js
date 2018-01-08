@@ -62,7 +62,7 @@ app.get('/temperatureReport', temperature.temperatureReport);
 app.post('/feedCountToday', feeding.countToday);
 app.get('/lastTemperature', temperature.getLatestData);
 
-app.get('/diaperCountToday', diaper.countToday);
+app.post('/diaperCountToday', diaper.countToday);
 
 
 app.get('/home', view.home);

@@ -9,7 +9,7 @@
 
     <meta name="description" content="Source code generated using layoutit.com">
     <meta name="author" content="LayoutIt!">
-
+	<script src="https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/datejs/date.js"></script>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -125,10 +125,16 @@
     	
     	$.ajax({url: "lastTemperature", success: function(result){
             $("#temperatureId").html(result.temperature+"&#x2109;");
-            $("#measuredAtId").html(result.measuredAt);
+            var measuredAt = result.measuredAt;
+            measuredAt=new Date(measuredAt);
+            measuredAt = measuredAt.toString('dd MMM yy h:mm');
+            $("#measuredAtId").html(measuredAt);
         }});
     	
-    	$.ajax({url: "diaperCountToday", success: function(result){
+    	$.ajax({url: "diaperCountToday",
+    		method:"POST",
+    		data:getTodaysDateTimeWithUTCOffset(),
+    		success: function(result){
             $("#cleaningId").html(result.count);
         }});
     

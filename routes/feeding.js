@@ -79,10 +79,10 @@ exports.clearAll= function(req, res){
 exports.countToday= function(req, res){
 	var count = 0;
 	var totDuration=0;
-	console.log("req.body"+JSON.stringify(req.body));
+	//console.log("req.body"+JSON.stringify(req.body));
 	var startDate=req.body.startDate;
 	var endDate=req.body.endDate;
-	console.log("startDate"+startDate+" endDate"+endDate);
+	//console.log("startDate"+startDate+" endDate"+endDate);
 	feedModel.find({startTime: {
 	        $gte: startDate,
 	        $lt:endDate

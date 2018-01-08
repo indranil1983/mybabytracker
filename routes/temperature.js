@@ -58,7 +58,7 @@ exports.getLatestData=function(req,res){
 	    		console.log("temperature docs "+docs);
 	    		for (var i = 0; i < docs.length; i++) {
 	    			var notedAt = docs[i].noteTime;
-	    			notedAt = dateFormat(notedAt, "dS mmm h:MM TT");
+	    			//notedAt = dateFormat(notedAt, "dS mmm h:MM TT");
 	    			console.log("notedAt "+notedAt);
 	    			//var noteOffSetTime=util.getTimeZoneSpecificDate(notedAt);
 		    		res.send({"temperature":docs[i].temperature,"measuredAt":notedAt});
