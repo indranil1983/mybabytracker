@@ -55,18 +55,22 @@ exports.countToday= function(req, res){
 	var count = 0;
 	var startDate=req.body.startDate;
 	var endDate=req.body.endDate;
+	console.log("startDate"+startDate+"endtime"+endDate);
 	diaperModel.find({noteTime: {
         $gte: startDate,
         $lt:endDate
-    }}, function(err, docs) {
-	    if (!err){ 
+    }},null,{sort:{noteTime:-1}}, function(err, docs) {
+    	console.log("diaper docs"+docs);
+    	if (!err){ 
 	    	//res.send("fetchAll  successfully returned "+docs);
 	    	if(!docs.length){
-	    		res.send(JSON.stringify({"count":count}));
+	    		
+	    		res.send(JSON.stringify({"count":count,"lastChange":0}));
 	    	}
 	    	else{
+	    		var lastChange=docs[0].noteTime;
 	    		count=docs.length;
-	    		res.send({"count":count});
+	    		res.send({"count":count,"lastChange":lastChange});
 	    	}
 	    }
 	    else {
