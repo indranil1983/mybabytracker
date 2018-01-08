@@ -4,9 +4,9 @@ var util = require('./util.js');
 
 var feedModel = mongoose.model('feedModel');
 
-exports.rightStart = function(req, res){
+exports.Start = function(req, res){
 	console.log("rightStart started");
-	feedModel.create({profile:config.profile,side:'right',startTime:new Date()});	
+	feedModel.create({profile:config.profile,side:'',startTime:new Date()});	
 	res.send("rightStart  successfully updated");
 };
 
@@ -39,8 +39,8 @@ exports.fetchAll = function(req, res){
 	
 };
 
-exports.rightStop = function(req, res){
-	feedModel.findOneAndUpdate({endTime:{ $exists: false },side:"right"}, { $set: {endTime:new Date()}}, {sort:{startTime:-1},new:true}, 
+exports.Stop = function(req, res){
+	feedModel.findOneAndUpdate({endTime:{ $exists: false }}, { $set: {endTime:new Date()}}, {sort:{startTime:-1},new:true}, 
 	  function (err, doc) {
 		if(err){
 	        console.log("Something wrong when updating data!"+err);

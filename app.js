@@ -20,9 +20,10 @@ var view=require('./routes/view');
 var app = express();
 
 // all environments
+app.set("view options", {layout: false});  
 app.set('port', config.PORT || 3000);
 app.set('views', __dirname + '/html');
-app.engine('html', engines.mustache);
+app.engine('html',  require('ejs').renderFile);
 app.set('view engine', 'html');
 app.use(express.favicon());
 app.use(express.logger('dev'));
@@ -39,10 +40,10 @@ if ('development' == app.get('env')) {
 app.get('/', view.home);
 app.get('/users', user.list);
 
-app.get('/feedRightStart', feeding.rightStart);
-app.get('/feedRightStop', feeding.rightStop);
-app.get('/feedLeftStart', feeding.leftStart);
-app.get('/feedLeftStop', feeding.leftStop);
+app.get('/feedStart', feeding.Start);
+app.get('/feedStop', feeding.Stop);
+//app.get('/feedLeftStart', feeding.leftStart);
+//app.get('/feedLeftStop', feeding.leftStop);
 
 app.get('/feedFetchAll', feeding.fetchAll);
 //app.get('/feedClearAll', feeding.clearAll);

@@ -11,6 +11,6 @@
     "express": "^3.21.2",
     "mongoose": "*",
     "mongoose-timezone": "^1.1.0",
-    "mustache": "^2.3.0"
+    "ejs": "*"
   }
 }
