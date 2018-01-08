@@ -113,7 +113,12 @@
     
     
     <script type="text/javascript">
-    	$.ajax({url: "feedCountToday", success: function(result){
+    	$.ajax({
+    		url: "feedCountToday",
+    		method:"POST",
+    		data:getTodaysDateTimeWithUTCOffset(),
+    		success: function(result){
+    		getTodaysDateTimeWithUTCOffset();
             $("#feedCountId").html(result.count);
             $("#feedDurationId").html(result.duration+"min(s)");
         }});
@@ -127,6 +132,15 @@
             $("#cleaningId").html(result.count);
         }});
     
+    	function getTodaysDateTimeWithUTCOffset(){
+    		var date = new Date();
+    		var startDate=date.setHours(0,0,0,0);
+    		var endDate = date.setHours(23,59,59,0);
+    		console.log(startDate);
+    		console.log(endDate);
+    		return {"startDate":startDate,"endDate":endDate};
+    	}
+    	
     </script>
   </body>
 </html>

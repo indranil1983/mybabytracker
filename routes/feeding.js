@@ -79,7 +79,14 @@ exports.clearAll= function(req, res){
 exports.countToday= function(req, res){
 	var count = 0;
 	var totDuration=0;
-	feedModel.find({}, function(err, docs) {
+	console.log("req.body"+JSON.stringify(req.body));
+	var startDate=req.body.startDate;
+	var endDate=req.body.endDate;
+	console.log("startDate"+startDate+" endDate"+endDate);
+	feedModel.find({startTime: {
+	        $gte: startDate,
+	        $lt:endDate
+	    }}, function(err, docs) {
 	    if (!err){ 
 	    	//res.send("fetchAll  successfully returned "+docs);
 	    	if(!docs.length){
@@ -87,7 +94,7 @@ exports.countToday= function(req, res){
 	    	}
 	    	else{
 	    		var responseString = [];
-	    		
+	    		console.log(" feed docs:- "+docs);
 	    		for (var i = 0; i < docs.length; i++) {
 					var side=docs[i].side;
 					var startTime=docs[i].startTime;

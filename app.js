@@ -59,7 +59,7 @@ app.get('/changePottyDiaper', diaper.changePottyDiaper);
 app.get('/diaperReport', diaper.diaperReport);
 app.get('/temperatureReport', temperature.temperatureReport);
 
-app.get('/feedCountToday', feeding.countToday);
+app.post('/feedCountToday', feeding.countToday);
 app.get('/lastTemperature', temperature.getLatestData);
 
 app.get('/diaperCountToday', diaper.countToday);
