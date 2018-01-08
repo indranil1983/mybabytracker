@@ -87,19 +87,16 @@ exports.countToday= function(req, res){
 	    	}
 	    	else{
 	    		var responseString = [];
-	    		var d = new Date();
-	    		var n = d.getTimezoneOffset();
-	    		var secOffset = n*60;
-	    		console.log("offset seconds"+secOffset);
+	    		
 	    		for (var i = 0; i < docs.length; i++) {
 					var side=docs[i].side;
 					var startTime=docs[i].startTime;
-					var offstartTime = util.getTimeZoneSpecificDate(startTime);
+					//var offstartTime = util.getTimeZoneSpecificDate(startTime);
 					var offEndTime=0;
 					var endTime=docs[i].endTime;
-					if(endTime){
-						offEndTime = new Date(endTime.getTime() - secOffset * 1000);
-					}
+					/*if(endTime){
+						offEndTime = util.getTimeZoneSpecificDate(endTime);
+					}*/
 					
 					var duration=null;
 					if(endTime!=null){
@@ -107,7 +104,7 @@ exports.countToday= function(req, res){
 					}
 					else duration=5;//mins
 					console.log(duration);
-					if(util.checkCurrentDate(offstartTime)){
+					if(util.checkCurrentDate(startTime)){
 						count++;
 						totDuration=totDuration+duration;
 					}
