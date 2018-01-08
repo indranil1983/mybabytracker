@@ -118,6 +118,8 @@
     
     
     <script type="text/javascript">
+    
+    $('document').ready(function(){
     	$.ajax({
     		url: "feedCountToday",
     		method:"POST",
@@ -146,6 +148,8 @@
             lastChangedAt = lastChangedAt.toString('dd MMM yy h:mm');
             $('#diaperChangeId').html(lastChangedAt);
         }});
+    });
+    	
     
     	function getTodaysDateTimeWithUTCOffset(){
     		var date = new Date();
