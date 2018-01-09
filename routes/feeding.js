@@ -82,7 +82,7 @@ exports.countToday= function(req, res){
 	//console.log("req.body"+JSON.stringify(req.body));
 	var startDate=req.body.startDate;
 	var endDate=req.body.endDate;
-	//console.log("startDate"+startDate+" endDate"+endDate);
+	console.log("Feed countToday startDate"+startDate+" endDate"+endDate);
 	feedModel.find({startTime: {
 	        $gte: startDate,
 	        $lt:endDate
@@ -98,28 +98,20 @@ exports.countToday= function(req, res){
 	    		for (var i = 0; i < docs.length; i++) {
 					var side=docs[i].side;
 					var startTime=docs[i].startTime;
-					//var offstartTime = util.getTimeZoneSpecificDate(startTime);
 					var offEndTime=0;
 					var endTime=docs[i].endTime;
-					/*if(endTime){
-						offEndTime = util.getTimeZoneSpecificDate(endTime);
-					}*/
-					
 					var duration=null;
 					if(endTime!=null){
 						duration = Math.abs((endTime.getTime() - startTime.getTime())/60000);//mins
 					}
 					else duration=5;//mins
 					console.log(duration);
-					if(util.checkCurrentDate(startTime)){
-						count++;
-						totDuration=totDuration+duration;
-					}
+					count++;
+					totDuration=totDuration+duration;
 					
 				}
 	    		res.send({"count":count,"duration":Math.ceil(totDuration)});
-	    	}	    	
-	    	console.log(JSON.stringify(responseString, null, "\t"));
+	    	}
 	    }else {res.send("fetchAll  error returned "+err)};	
 	});
 };
