@@ -11,6 +11,7 @@
     "express": "^3.21.2",
     "mongoose": "*",
     "mongoose-timezone": "^1.1.0",
-    "ejs": "*"
+    "ejs": "*",
+    "socket.io": "*"
   }
 }

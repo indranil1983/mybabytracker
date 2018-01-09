@@ -112,11 +112,20 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.slim.js"></script>
     
     
     <script type="text/javascript">
     
     $('document').ready(function(){
+    	
+    	fetchFeeding();
+    	fetchLastTemperature();
+    	fetchDiaperCount();
+    	webSocketSybscribe();
+    });
+    	
+    function fetchFeeding(){
     	$.ajax({
     		url: "feedCountToday",
     		method:"POST",
@@ -126,7 +135,9 @@
             $("#feedCountId").html(result.count);
             $("#feedDurationId").html(result.duration+"min(s)");
         }});
-    	
+    }
+    
+    function fetchLastTemperature(){
     	$.ajax({url: "lastTemperature", success: function(result){
             $("#temperatureId").html(result.temperature+"&#x2109;");
             var measuredAt = result.measuredAt;
@@ -134,19 +145,38 @@
             measuredAt = measuredAt.toString('dd MMM yy h:mm');
             $("#measuredAtId").html(measuredAt);
         }});
-    	
+    }
+    
+    function fetchDiaperCount(){
     	$.ajax({url: "diaperCountToday",
     		method:"POST",
     		data:getTodaysDateTimeWithUTCOffset(),
-    		success: function(result){
-            $("#cleaningId").html(result.count);
-            var lastChangedAt = result.lastChange;
-            lastChangedAt=new Date(lastChangedAt);
-            lastChangedAt = lastChangedAt.toString('dd MMM yy h:mm');
-            $('#diaperChangeId').html(lastChangedAt);
-        }});
-    });
-    	
+    		success: updateCleaning
+    		});
+    }
+    
+    function updateCleaning(result){
+    	$("#cleaningId").html(result.count);
+        var lastChangedAt = result.lastChange;
+        lastChangedAt=new Date(lastChangedAt);
+        lastChangedAt = lastChangedAt.toString('dd MMM yy h:mm');
+        $('#diaperChangeId').html(lastChangedAt);
+    }
+    
+    function webSocketSybscribe(){
+    	var socket = io.connect('/');
+    	 socket.on('requestReload', function(msg){
+    		 fetchFeeding();
+    		 fetchLastTemperature();
+    		 fetchDiaperCount();
+    	 });
+    	 /* socket.on('diaper', function(msg){
+   	      $('#messages').append($('<li>').text(msg));
+   	  });
+    	 socket.on('clean', function(msg){
+   	      $('#messages').append($('<li>').text(msg));
+   	  }); */
+    }
     
     	function getTodaysDateTimeWithUTCOffset(){
     		var date = new Date();
