@@ -64,86 +64,49 @@
 					$('document').ready(function() {
 
 						fetchFeedingAll();
-						webSocketSybscribe();
+						//webSocketSybscribe();
 					});
 
 					function fetchFeedingAll() {
 						$.ajax({
-							url : "feedFetchAll",
+							url : "diaperReport",
 							method : "GET",
 							success : function(result) {
-								console.log(result);
-								processFedingData(result);
+								processCleaningData(result);
 							}
 						});
 					}
 
-					//
-					function processFedingData(result) {
+					function processCleaningData(result) {
 						var currentDate = null;
 						var count=0;
 						for (var i = (result.length-1); i >=0; i--) {
-							var startTime = result[i].startTime;
-							
-							startTime = new Date(startTime);
-							var orgStartTime = startTime;
-							var tempCurrentDate = startTime.toString('dd MMM yy');
-							if(tempCurrentDate!=currentDate){
-								if(currentDate!=null){
-									$('#count'+currentDate.replace(/ /g,"")).html("("+count+")");
+							var startTime = result[i].noteTime;
+							if(startTime){
+								startTime = new Date(startTime);
+								var orgStartTime = startTime;
+								var tempCurrentDate = startTime.toString('dd MMM yy');
+								if(tempCurrentDate!=currentDate){
+									if(currentDate!=null){
+										$('#count'+currentDate.replace(/ /g,"")).html("("+count+")");
+									}
+									count=0;
+									currentDate=tempCurrentDate;
+									var tempHtml = grpHtml.replace(/{#dateId}/g,currentDate.replace(/ /g,""));
+									tempHtml = tempHtml.replace("{#dateText}",currentDate);
+									$('#dummyColumnId').append(tempHtml);
+									
 								}
-								count=0;
-								currentDate=tempCurrentDate;
-								var tempHtml = grpHtml.replace(/{#dateId}/g,currentDate.replace(/ /g,""));
-								tempHtml = tempHtml.replace("{#dateText}",currentDate);
-								$('#dummyColumnId').append(tempHtml);
-								
-							}
+							}							
 							count++;
-							startTime = startTime.toString('dd MMM yy h:mm');
-							var duration = null;
-							var endTime = result[i].endTime;
-							endTime = new Date(endTime);
-							if (endTime != null) {
-								duration = Math.abs(endTime.getTime()
-										- orgStartTime.getTime())/60000;
-								duration= Math.ceil(duration);
-							}
-							else{
-								duration=5;
-							}
-							tempHtml = individualHtml;
-							tempHtml= tempHtml.replace("{#time}",startTime);
-							tempHtml= tempHtml.replace("{#duration}",duration);
-							$('#dummyUlId'+currentDate.replace(/ /g,"")).append(tempHtml);
 						}
 					}
-
-					function webSocketSybscribe() {
-						var socket = io.connect('/');
-						socket.on('requestReload', function(msg) {
-							fetchFeeding();
-							fetchLastTemperature();
-							fetchDiaperCount();
-						});
 						/* socket.on('diaper', function(msg){
 						    $('#messages').append($('<li>').text(msg));
 						});
 						socket.on('clean', function(msg){
 						    $('#messages').append($('<li>').text(msg));
 						}); */
-					}
-
-					function getTodaysDateTimeWithUTCOffset() {
-						var date = new Date();
-						var startDate = date.setHours(0, 0, 0, 0);
-						var endDate = date.setHours(23, 59, 59, 0);
-						console.log(startDate);
-						console.log(endDate);
-						return {
-							"startDate" : startDate,
-							"endDate" : endDate
-						};
 					}
 					
 					
