@@ -4,3 +4,7 @@ exports.home=function(req,res){
 	console.log(path.join(__dirname+'/html/home.html'));
 	res.render('./home.html');
 };
+exports.feedDetail=function(req,res){	
+	console.log(path.join(__dirname+'/html/feedDetail.html'));
+	res.render('./feedDetail.html');
+};

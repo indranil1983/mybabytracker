@@ -40,6 +40,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.errorHandler());
 
 app.get('/', view.home);
+app.get('/feedDetail', view.feedDetail);
+
 app.get('/users', user.list);
 
 app.get('/feedStart', function(req, res){

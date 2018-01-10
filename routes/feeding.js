@@ -17,8 +17,8 @@ exports.fetchAll = function(req, res){
 	feedModel.find({}, function(err, docs) {
 	    if (!err){ 
 	    	//res.send("fetchAll  successfully returned "+docs);
-	    	if(docs.length==0){
-	    		res.send("fetchAll  no data returned");
+	    	if(!docs.length){
+	    		res.send({});
 	    	}else{
 	    		var responseString = [];
 	    		for (var i = 0; i < docs.length; i++) {
@@ -31,10 +31,10 @@ exports.fetchAll = function(req, res){
 					}					
 					responseString.push({"side":side,"startTime":startTime,"endTime":endTime,"duration":duration});
 				}
-	    		res.send("fetchAll data returned <br>"+JSON.stringify(responseString, null, "\t"));
+	    		res.send(responseString);
 	    	}	    	
 	    	console.log(JSON.stringify(responseString, null, "\t"));
-	    }else {res.send("fetchAll  error returned "+err)};	
+	    }else {res.send({})};	
 	});
 	
 };
