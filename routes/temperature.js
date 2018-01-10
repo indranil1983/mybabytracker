@@ -26,7 +26,7 @@ exports.temperatureReport = function(req, res){
 	    if (!err){ 
 	    	//res.send("fetchAll  successfully returned "+docs);
 	    	if(!docs.length){
-	    		res.send(" temperatureReport no data returned");
+	    		res.send("{}");
 	    	}else{
 	    		var responseString = [];
 	    		for (var i = 0; i < docs.length; i++) {
@@ -34,10 +34,10 @@ exports.temperatureReport = function(req, res){
 					var noteTime=docs[i].noteTime;
 					responseString.push({"temperature":temperature,"noteTime":noteTime});
 				}
-	    		res.send("temperatureReport returned"+JSON.stringify(responseString));
+	    		res.send(responseString);
 	    	}	    	
 	    	console.log(responseString);
-	    }else {res.send("temperatureReport error returned "+err)};	
+	    }else {res.send({})};	
 	});
 	
 };

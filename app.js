@@ -41,6 +41,8 @@ app.use(express.errorHandler());
 
 app.get('/', view.home);
 app.get('/feedDetail', view.feedDetail);
+app.get('/temperatureDetail', view.temperatureDetail);
+app.get('/cleaningDetail', view.cleaningDetail);
 
 app.get('/users', user.list);
 

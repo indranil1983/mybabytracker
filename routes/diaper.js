@@ -34,7 +34,7 @@ exports.diaperReport = function(req, res){
 	    if (!err){ 
 	    	//res.send("fetchAll  successfully returned "+docs);
 	    	if(!docs.length){
-	    		res.send("fetchAll diaperModel no data returned");
+	    		res.send({});
 	    	}else{
 	    		var responseString = [];
 	    		for (var i = 0; i < docs.length; i++) {
@@ -43,10 +43,10 @@ exports.diaperReport = function(req, res){
 					var potty=docs[i].potty;
 					responseString.push({"pee":pee,"noteTime":noteTime,"potty":potty});
 				}
-	    		res.send("fetchAll data diaperModel returned"+JSON.stringify(responseString));
+	    		res.send(responseString);
 	    	}	    	
 	    	console.log(responseString);
-	    }else {res.send("fetchAll diaperModel error returned "+err)};	
+	    }else {res.send({})};	
 	});
 	
 };

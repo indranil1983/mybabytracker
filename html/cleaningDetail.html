@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>My Baby Tracker!</title>
+
+    <meta name="description" content="My Baby Tracker">
+    <meta name="author" content="Indranil">    
+	<script src="https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/datejs/date.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  </head>
+  <body>
+	<nav class="navbar navbar-default">
+	  <div class="container-fluid">
+	    <!-- Brand and toggle get grouped for better mobile display -->
+	    <div class="navbar-header">
+	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+	        <span class="sr-only">Toggle navigation</span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </button>
+	      <a class="navbar-brand" href="#">Dijo Tracker</a>
+	    </div>
+	
+	    <!-- Collect the nav links, forms, and other content for toggling -->
+	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	      <ul class="nav navbar-nav">
+	        <li class="active"><a href="/">Home <span class="sr-only">(current)</span></a></li>
+	        <li><a href="#">Photos</a></li>	        
+	      </ul>	      
+	    </div><!-- /.navbar-collapse -->
+	  </div><!-- /.container-fluid -->
+	</nav>
+
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-3" >
+				<a href="/home" type="button" class="btn btn-default btn-primary medium">
+					<i class="fa fa-backward"></i> Back
+				</a>
+			</div>
+		</div>
+		<div style="clear: both;height: 10px;"></div>
+		<div class="row">
+			<div class="col-md-6" id="dummyColumnId"></div>
+		</div>
+
+	</div>
+	<script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.slim.js"></script>
+    
+    
+    <script type="text/javascript">
+					$('document').ready(function() {
+
+						fetchFeedingAll();
+						webSocketSybscribe();
+					});
+
+					function fetchFeedingAll() {
+						$.ajax({
+							url : "diaperReport",
+							method : "GET",
+							success : function(result) {
+								processCleaningData(result);
+							}
+						});
+					}
+
+					function processCleaningData(result) {
+						var currentDate = null;
+						var count=0;
+						for (var i = 0; i < result.length; i++) {
+							var startTime = result[i].noteTime;
+							if(startTime){
+								startTime = new Date(startTime);
+								var orgStartTime = startTime;
+								var tempCurrentDate = startTime.toString('dd MMM yy');
+								if(tempCurrentDate!=currentDate){
+									if(currentDate!=null){
+										$('#count'+currentDate.replace(/ /g,"")).html("("+count+")");
+									}
+									count=0;
+									currentDate=tempCurrentDate;
+									var tempHtml = grpHtml.replace(/{#dateId}/g,currentDate.replace(/ /g,""));
+									tempHtml = tempHtml.replace("{#dateText}",currentDate);
+									$('#dummyColumnId').append(tempHtml);
+									
+								}
+							}							
+							count++;
+						}
+					}
+
+					function webSocketSybscribe() {
+						var socket = io.connect('/');
+						socket.on('requestReload', function(msg) {
+							fetchFeeding();
+							fetchLastTemperature();
+							fetchDiaperCount();
+						});
+						/* socket.on('diaper', function(msg){
+						    $('#messages').append($('<li>').text(msg));
+						});
+						socket.on('clean', function(msg){
+						    $('#messages').append($('<li>').text(msg));
+						}); */
+					}
+
+					function getTodaysDateTimeWithUTCOffset() {
+						var date = new Date();
+						var startDate = date.setHours(0, 0, 0, 0);
+						var endDate = date.setHours(23, 59, 59, 0);
+						console.log(startDate);
+						console.log(endDate);
+						return {
+							"startDate" : startDate,
+							"endDate" : endDate
+						};
+					}
+					
+					
+					var grpHtml = '<div class="panel-group" id="accordion{#dateId}" style="margin-bottom:0px;border: 1px solid transparent;">'+
+					'					<div class="panel panel-default  panel-primary">'+
+					'						<div class="panel-heading">'+
+					'							<h4 class="panel-title">'+
+					'								<a data-toggle="collapse" data-parent="#accordion{#dateId}"'+
+					'									href="#collapseOne{#dateId}"><i'+
+					'									class="fa fa-calendar-plus-o" style="padding-right:5px;"> </i>{#dateText} <span id="count{#dateId}"></span></a>'+
+					'							</h4>'+
+					'						</div>'+
+					'						<div id="collapseOne{#dateId}" class="panel-collapse collapse">'+
+					'							<ul class="list-group " id="dummyUlId{#dateId}">'+
+					'							</ul>'+
+					'						</div>'+
+					'					</div>'+
+					'				</div>';
+							
+
+					
+					var individualHtml=
+						'<li class="list-group-item">'+
+						'									<div class="row">'+
+						'										<div class="col-md-6">'+
+						'											<i class="fa fa-clock-o" aria-hidden="true"  style="padding-right:5px;"></i>'+
+						'											<span>{#time}</span>'+
+						'										</div>'+
+						'										<div class="col-md-6">'+
+						'											<span>{#duration}mins</span>'+
+						'										</div>'+
+						'									</div>'+
+						'								</li>';
+							
+
+				</script>
+  </body>
+</html>
