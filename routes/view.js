@@ -16,3 +16,7 @@ exports.temperatureDetail=function(req,res){
 exports.cleaningDetail=function(req,res){
 	res.render('./cleaningDetail.html');
 };
+
+exports.photoDetails=function(req,res){
+	res.render('./photoDetails.html');
+};

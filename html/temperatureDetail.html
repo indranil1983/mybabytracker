@@ -33,7 +33,7 @@
 	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	      <ul class="nav navbar-nav">
 	        <li class="active"><a href="/">Home <span class="sr-only">(current)</span></a></li>
-	        <li><a href="#">Photos</a></li>	        
+	        <li><a href="https://photos.app.goo.gl/3K72wdr7CK2XLDOp1" target="_blank">Photos</a></li>	     
 	      </ul>	      
 	    </div><!-- /.navbar-collapse -->
 	  </div><!-- /.container-fluid -->
@@ -79,7 +79,7 @@
 					}
 
 					function processTemperatureData(result) {
-						for (var i = 0; i < result.length; i++) {
+						for (var i = (result.length-1); i >=0; i--) {
 							var temperature = result[i].temperature;
 							if(temperature){
 								var measuredAt = result[i].noteTime;							
